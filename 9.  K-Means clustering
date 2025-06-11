@@ -1,0 +1,28 @@
+from sklearn.cluster import KMeans
+from sklearn.datasets import load_breast_cancer
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+# Load data
+cancer = load_breast_cancer()
+X = cancer.data
+df = pd.DataFrame(X, columns=cancer.feature_names)
+
+# Model - using 2 clusters for benign/malignant
+kmeans = KMeans(n_clusters=2, random_state=0, n_init='auto')
+df['Cluster'] = kmeans.fit_predict(X)
+
+# Visualize using two key features
+plt.figure(figsize=(10, 6))  # Slightly larger for better readability
+sns.scatterplot(data=df, 
+                x='mean radius', 
+                y='mean texture', 
+                hue='Cluster', 
+                palette='Set1',
+                s=70)  # Increased point size
+plt.title('K-Means Clustering on Breast Cancer Dataset')
+plt.xlabel('Mean Radius (tumor size)')
+plt.ylabel('Mean Texture (cell consistency)')
+plt.grid(True)
+plt.show()
