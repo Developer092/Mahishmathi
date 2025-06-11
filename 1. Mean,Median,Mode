@@ -1,0 +1,26 @@
+import statistics
+import numpy as np
+
+def calculate_statistics(data):
+    try:
+        results = {
+            "Mean": statistics.mean(data),
+            "Median": statistics.median(data),
+            "Mode": statistics.mode(data) if len(set(data)) != len(data) else "No mode",
+            "Variance": statistics.pvariance(data),  # population variance
+            "Standard Deviation": statistics.pstdev(data)  # population standard deviation
+        }
+        return results
+    except statistics.StatisticsError as e:
+        return {"Error": str(e)}
+    except ZeroDivisionError:
+        return {"Error": "Empty dataset provided"}
+
+# Example usage
+if __name__ == "__main__":
+    data = [2, 4, 4, 4, 5, 5, 7, 9]
+    results = calculate_statistics(data)
+    
+    print("Statistical Measures:")
+    for key, value in results.items():
+        print(f"{key}: {value}")
